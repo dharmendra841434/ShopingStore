@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../Pages/LoginScreen';
 import RegistrationScreen from '../Pages/RegistrationScreen';
 import ListofItems from '../Pages/ListofItems';
+import Colors from '../Colors';
+import OrderPlaceScreen from '../Pages/OrderPlaceScreen';
 
 
 const MyStack = createNativeStackNavigator();
@@ -21,8 +23,21 @@ const StackNav = () => {
                         headerShown: false
                     }} />
                 <MyStack.Screen name='list' component={ListofItems}
+
                     options={{
-                        headerShown: false
+                        headerTitle: 'Product-List',
+                        headerTitleStyle: {
+                            fontSize: 19,
+                            fontWeight: 'bold',
+                            color: Colors.myblue
+                        }
+                    }}
+                />
+                <MyStack.Screen name='order' component={OrderPlaceScreen}
+                    options={{
+                        headerShown: true,
+                        headerBackVisible: true
+
                     }} />
             </MyStack.Navigator>
         </NavigationContainer>

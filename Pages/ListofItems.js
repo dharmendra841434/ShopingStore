@@ -1,8 +1,15 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import Colors from '../Colors';
+import CustomBtn from '../Componants/CustomBtn';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ListofItems = () => {
+
+    const navigation = useNavigation();
     const [Product, setProducts] = useState();
+    const [nCartItem, setnCartItem] = useState(0);
 
     const GetProducts = async () => {
         // setloding(true);
@@ -12,7 +19,7 @@ const ListofItems = () => {
             const json = await response.json();
 
             setProducts(json);
-            console.log(json);
+            //console.log(json);
         } catch (error) {
             console.log(error)
         } finally {
@@ -22,10 +29,31 @@ const ListofItems = () => {
 
     };
 
-    useEffect(() => {
-        GetProducts();
 
-    }, []);
+    useEffect(() => {
+
+
+        navigation.setOptions({
+
+            headerRight: () => (
+                <View>
+                    <TouchableOpacity onPress={() => { navigation.navigate("order") }}>
+                        <Icon name='shopping-cart' size={35} color={Colors.myblue} />
+                    </TouchableOpacity>
+                    <View style={{ position: 'absolute', marginStart: 10, marginTop: 4, height: 40, width: 40, }}>
+                        <Text style={{ marginStart: 10, fontSize: 12, marginBottom: 10, color: Colors.secoundrycolor, fontWeight: 'bold' }}>{nCartItem}</Text>
+                    </View>
+                </View >
+            )
+        })
+
+
+        GetProducts();
+        const cardItem = () => {
+            setnCartItem(nCartItem + s1);
+        }
+
+    }, [nCartItem]);
     return (
         <View style={{ flex: 1 }}>
             <FlatList
@@ -37,11 +65,25 @@ const ListofItems = () => {
                         alignItems: 'center'
                     }}>
                         <View style={styles.card}>
-                            <View>
-                                <Text style={styles.name}>{item.title}</Text>
-                                <Text style={styles.mob}>price : {item.price}</Text>
-                                <Text style={styles.mob}>category : {item.category}</Text>
-                                <Text style={styles.mob}>id : {item.id}</Text>
+                            <View style={{ alignItems: 'center', }}>
+                                <ImageBackground style={{ height: 280, width: 200, marginTop: 10 }} source={{ uri: item.image }} />
+                                <View style={styles.title}>
+                                    <Text style={{ color: Colors.myblue, fontSize: 22, fontWeight: 'bold', alignSelf: 'center' }}>{item.title}</Text>
+                                    <Text style={{ color: Colors.secoundrycolor, fontWeight: 'bold', fontSize: 18 }}>Price : {item.price}$</Text>
+                                    <Text style={{ marginTop: 10 }}>Category : {item.category}</Text>
+                                    <Text style={{ marginTop: 10, color: 'black', marginEnd: 10, marginStart: 10 }}>Description : {item.description}</Text>
+                                </View>
+                                <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-evenly', marginBottom: 20 }}>
+                                    <CustomBtn title="Add to Cart" style={styles.btn} TextStyle={styles.text}
+
+                                        onPress={() => { setnCartItem(nCartItem + 1); }}
+                                    />
+                                    <CustomBtn title="Buy" style={styles.btn} TextStyle={styles.text}
+
+                                    // onPress={() => { LoginUser(); }}
+                                    />
+                                </View>
+
                             </View>
                         </View>
                     </View>
@@ -56,11 +98,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     card: {
-        height: 120,
         width: "95%",
         elevation: 6,
         marginTop: 10,
         marginBottom: 10,
+        justifyContent: 'center',
         borderRadius: 10,
         backgroundColor: 'white',
         flexDirection: 'row'
@@ -81,6 +123,25 @@ const styles = StyleSheet.create({
     },
     mob: {
         marginStart: 10
-    }
+    },
+    title: {
+        alignItems: 'center',
+        marginTop: 20,
+        marginStart: 10,
+        overflow: 'hidden',
+        width: '100%'
+    }, btn: {
+        height: 50,
+        width: 120,
+        backgroundColor: Colors.myblue,
+        marginTop: 20,
+        borderRadius: 5,
+        alignItems: 'center'
+    },
+    text: {
+        color: Colors.primarycolor,
+        fontFamily: 'Poppins-Bold',
+        fontSize: 20, fontWeight: 'bold'
+    },
 })
 export default ListofItems;
