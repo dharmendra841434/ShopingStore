@@ -36,6 +36,7 @@ const StackNav = () => {
                 <MyStack.Screen name='order' component={OrderPlaceScreen}
                     options={{
                         headerShown: true,
+                        headerTitle: "Cart",
                         headerBackVisible: true
 
                     }} />

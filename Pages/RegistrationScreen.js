@@ -50,6 +50,7 @@ const RegistrationScreen = () => {
             });
             const json = await response.json();
             console.log(json.name);
+            console.log(json);
         } catch (error) {
             console.log(error)
         } finally {
@@ -63,7 +64,7 @@ const RegistrationScreen = () => {
             setmob("");
 
             alert("Signup Sucessfully...");
-            navigation.navigate("login")
+            navigation.navigate("Login")
         }
 
     };
